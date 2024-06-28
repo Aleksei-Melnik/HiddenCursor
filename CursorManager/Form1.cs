@@ -28,11 +28,12 @@ namespace CursorManager
         private POINT _lastPosition;
         private DateTime _lastMoveTime;
         private Timer _timer;
-
+        private NotifyIcon _notifyIcon;
 
         public Form1()
         {
             InitializeComponent();
+            InitializeTrayIcon();
 
             _lastMoveTime = DateTime.Now;
             _timer = new Timer();
@@ -44,7 +45,6 @@ namespace CursorManager
             this.ShowInTaskbar = false;
             this.Load += (sender, e) => { this.Hide(); };
         }
-
         private void CheckCursor(object sender, EventArgs e)
         {
             if (GetCursorPos(out POINT currentPos))
@@ -62,7 +62,43 @@ namespace CursorManager
                 }
             }
         }
+        private void InitializeTrayIcon()
+        {
+            _notifyIcon = new NotifyIcon();
+            _notifyIcon.Icon = new Icon(GetTrayIconPath(), 16, 16);
+            _notifyIcon.Visible = true;
 
+            ContextMenuStrip contextMenu = new ContextMenuStrip();
+            ToolStripMenuItem exitMenuItem = new ToolStripMenuItem("Exit", null, ExitMenuItem_Click);
+            contextMenu.Items.Add(exitMenuItem);
 
+            _notifyIcon.ContextMenuStrip = contextMenu;
+        }
+        private string GetTrayIconPath()
+        {
+            string iconPath = "icons/icon_x16.ico";
+            float dpi = GetDpi();
+
+            if (dpi > 96 && dpi <= 120) // 125%
+                iconPath = "icons/icon_x24.ico";
+            else if (dpi > 120 && dpi <= 144) // 150%
+                iconPath = "icons/icon_x32.ico";
+            else if (dpi > 144) // 200% or higher
+                iconPath = "icons/icon_x48.ico";
+
+            return iconPath;
+        }
+        private float GetDpi()
+        {
+            using (Graphics graphics = Graphics.FromHwnd(IntPtr.Zero))
+            {
+                return graphics.DpiX;
+            }
+        }
+        private void ExitMenuItem_Click(object sender, EventArgs e)
+        {
+            _notifyIcon.Visible = false;
+            Application.Exit();
+        }
     }
 }
