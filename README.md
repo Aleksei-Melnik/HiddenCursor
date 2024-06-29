@@ -15,7 +15,7 @@ This repository contains the source code for the HiddenCursor application, a Win
 ## Installation
 1. Clone the repository:
     ```sh
-    git clone https://github.com/Aleksei-Melnik/HiddenCursorSetup.git
+    git clone https://github.com/Aleksei-Melnik/HiddenCursor.git
     ```
 
 2. Open the solution in Visual Studio.
