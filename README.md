@@ -30,7 +30,7 @@ This repository contains the source code for the HiddenCursor application, a Win
 3. The cursor will be hidden in the bottom-right corner of the screen after 3 seconds of inactivity and will reappear when the mouse moves.
 
 ## Code Overview
-The main functionality is implemented in the `Program.cs` file, which includes:
+The main functionality is implemented in the `Form1.cs` file, which includes:
 - A timer that checks mouse activity every 3 seconds.
 - Functions to get and set the cursor position using `user32.dll` functions.
 - A function to check if SteamVR is running.
